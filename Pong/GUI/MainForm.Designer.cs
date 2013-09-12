@@ -1,4 +1,4 @@
-﻿namespace Pong
+﻿namespace Pong.GUI
 {
 	partial class MainForm
 	{
@@ -39,6 +39,9 @@
 			this.drawingSurface1.Size = new System.Drawing.Size(553, 373);
 			this.drawingSurface1.TabIndex = 0;
 			this.drawingSurface1.Text = "drawingSurface1";
+			this.drawingSurface1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
+			this.drawingSurface1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyUp);
+			this.drawingSurface1.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.drawingSurface1_PreviewKeyDown);
 			// 
 			// MainForm
 			// 
@@ -47,6 +50,7 @@
 			this.ClientSize = new System.Drawing.Size(553, 373);
 			this.Controls.Add(this.drawingSurface1);
 			this.Name = "MainForm";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "Pong";
 			this.ResumeLayout(false);
 

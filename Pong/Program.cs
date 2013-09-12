@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using Pong.GUI;
 
 namespace Pong {
 	public static class Program
