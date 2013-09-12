@@ -23,10 +23,10 @@ namespace Pong.GUI
 		{
 			InitializeComponent();
 			Rectangle workingArea = Screen.PrimaryScreen.WorkingArea;
-			Width = workingArea.Width * 2 / 3;
-			Height = workingArea.Height * 2 / 3;
+			Width = workingArea.Height;
+			Height = Width * 2 / 3;
 			Top = workingArea.Height / 6;
-			Left = workingArea.Width / 6;
+			Left = (workingArea.Width - Width) / 2;
 			controller = new GameController(drawingSurface1);
 			controller.Start();
 		}

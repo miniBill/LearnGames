@@ -20,10 +20,16 @@ namespace Pong.Game.Sprites
 		public override void Update(double delta)
 		{
 			base.Update(delta);
-			if (AI)
+			if (!AI) return;
+			if (world.Ball.X > .25)
 			{
 				double projected = world.Ball.Y.Project(Top + Width / 3, Bottom - Width / 3, -TopSpeed, TopSpeed);
 				SpeedY = projected.Clamp(-TopSpeed, TopSpeed);
+			}
+			else
+			{
+				if (Top < world.CollisionTolerance || Bottom > 1 - world.CollisionTolerance)
+					SpeedY *= -1;
 			}
 		}
 

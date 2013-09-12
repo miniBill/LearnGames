@@ -108,11 +108,11 @@ namespace Pong.Game
 					break;
 				case Keys.Up:
 				case Keys.W:
-					world.Player.SpeedY = -Player.TopSpeed;
+					world.Player.SpeedY = -Player.TopSpeed * 1.5;
 					break;
 				case Keys.Down:
 				case Keys.S:
-					world.Player.SpeedY = Player.TopSpeed;
+					world.Player.SpeedY = Player.TopSpeed * 1.5;
 					break;
 				case Keys.Q:
 				case Keys.Escape:
