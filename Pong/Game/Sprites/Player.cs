@@ -8,7 +8,7 @@ namespace Pong.Game.Sprites
 		public bool AI { get; private set; }
 
 		public Player(bool ai, World world)
-			: base(1 / 100.0, 1 / 10.0)
+			: base(1 / 100.0, ai ? 1 / 10.0 : 1 / 8.0)
 		{
 			this.world = world;
 			X = ai ? 1 - Width / 2 : Width / 2;

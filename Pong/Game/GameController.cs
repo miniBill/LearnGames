@@ -27,6 +27,7 @@ namespace Pong.Game
 		}
 
 		private bool started;
+		private bool paused;
 		private long saved;
 		FPSCounter counter = new FPSCounter();
 
@@ -63,7 +64,6 @@ namespace Pong.Game
 			if (idelta == 0)
 				return;
 
-			world.Update(delta);
 			var graphics = drawingSurface.GetGraphics();
 			if (!started)
 			{
@@ -72,6 +72,8 @@ namespace Pong.Game
 			}
 			else
 			{
+				if (!paused)
+					world.Update(delta);
 				if (world.Ball.Stopped)
 					world.Ball.Kick();
 				Size size = e.ClipRectangle.Size;
@@ -84,6 +86,12 @@ namespace Pong.Game
 				graphics.DrawString(String.Format("{0}", aiPoints), pointsFont, Brushes.White,
 					size.Width, 0, rightFormat);
 				world.DrawTo(graphics, size);
+				if (paused)
+				{
+					graphics.DrawString("P A U S E D", introFont, Brushes.Gray, e.ClipRectangle.GetCenter(),
+					introFormat);
+				}
+
 				if (world.Ball.Left < world.CollisionTolerance)
 				{
 					aiPoints++;
@@ -105,20 +113,27 @@ namespace Pong.Game
 			{
 				case Keys.Enter:
 					started = true;
+					paused = false;
 					break;
 				case Keys.Up:
 				case Keys.W:
 					world.Player.SpeedY = -Player.TopSpeed * 1.5;
+					paused = false;
 					break;
 				case Keys.Down:
 				case Keys.S:
 					world.Player.SpeedY = Player.TopSpeed * 1.5;
+					paused = false;
 					break;
 				case Keys.Q:
 				case Keys.Escape:
 					timer.Stop();
 					drawingSurface.Stop();
 					Application.Exit();
+					break;
+				case Keys.Space:
+				case Keys.P:
+					paused = !paused;
 					break;
 			}
 		}
