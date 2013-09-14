@@ -13,7 +13,7 @@ namespace Pong.Objects.Sprites {
 			AI = ai;
 		}
 
-		public const double TOP_SPEED = 0.5;
+		public const double TOP_SPEED = 0.3;
 
 		public override void Update (double delta)
 		{

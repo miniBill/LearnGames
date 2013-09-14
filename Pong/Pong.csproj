@@ -8,7 +8,7 @@
     <ProjectGuid>{32D1B734-2632-4475-80D8-0F3720A68674}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Pong</RootNamespace>
-    <AssemblyName>PonGL</AssemblyName>
+    <AssemblyName>Pong</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
