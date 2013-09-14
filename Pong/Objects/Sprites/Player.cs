@@ -1,6 +1,8 @@
 ﻿using System.Drawing;
+using Pong.Objects;
+using Pong.Extensions;
 
-namespace Pong.Sprites
+namespace Pong.Objects.Sprites
 {
 	class Player : MovingSprite
 	{

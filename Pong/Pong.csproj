@@ -32,29 +32,29 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Compile Include="Program.cs" />
-    <Compile Include="FPSCounter.cs" />
-    <Compile Include="RectangleExtensions.cs" />
-    <Compile Include="MathExtensions.cs" />
-    <Compile Include="UpdateEventArgs.cs" />
-    <Compile Include="GameController.cs" />
-    <Compile Include="IDrawingSurface.cs" />
-    <Compile Include="Objects\Player.cs" />
     <Compile Include="Objects\World.cs" />
     <Compile Include="Objects\Sprites\Ball.cs" />
     <Compile Include="Objects\Sprites\MovingSprite.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\opentk\Source\OpenTK\OpenTK.csproj">
-      <Project>{A37A7E14-0000-0000-0000-000000000000}</Project>
-      <Name>OpenTK</Name>
-    </ProjectReference>
+    <Compile Include="Objects\Sprites\Player.cs" />
+    <Compile Include="GUI\FPSCounter.cs" />
+    <Compile Include="Logic\GameController.cs" />
+    <Compile Include="GUI\IDrawingSurface.cs" />
+    <Compile Include="GUI\Program.cs" />
+    <Compile Include="GUI\UpdateEventArgs.cs" />
+    <Compile Include="Extensions\RectangleExtensions.cs" />
+    <Compile Include="Extensions\MathExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Drawing" />
     <Reference Include="System" />
+    <Reference Include="OpenTK">
+      <HintPath>bin\Debug\OpenTK.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Objects\" />
+    <Folder Include="GUI\" />
+    <Folder Include="Logic\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
 </Project>

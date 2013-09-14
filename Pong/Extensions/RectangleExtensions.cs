@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace Pong
+namespace Pong.Extensions
 {
 	static class RectangleExtensions
 	{

@@ -1,7 +1,7 @@
 using System;
 using Pong.GUI;
 
-namespace Pong.Game
+namespace Pong.GUI
 {
 	public interface IDrawingSurface
 	{

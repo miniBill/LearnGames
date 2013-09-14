@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
-using Pong.Sprites;
+using Pong.Objects.Sprites;
 
-namespace Pong
+namespace Pong.Objects
 {
 	class World
 	{

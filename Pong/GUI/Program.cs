@@ -6,10 +6,9 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
-using Pong.Game;
-using Pong;
+using Pong.Logic;
 
-namespace PonGL
+namespace Pong.GUI
 {
 	class Game : GameWindow, IDrawingSurface
 	{
@@ -29,7 +28,8 @@ namespace PonGL
 			GL.ClearColor(0, 0, 0, 0.0f);
 			GL.Enable(EnableCap.DepthTest);
 
-			GameController controller = new GameController (this);
+			var controller = new GameController (this);
+			controller.Start ();
 		}
 
 		/// <summary>
@@ -61,7 +61,7 @@ namespace PonGL
 				Exit();
 		}
 
-		public event EventHandler<Pong.GUI.UpdateEventArgs> Update;
+		public event EventHandler<UpdateEventArgs> Update;
 
 		/// <summary>
 		/// Called when it is time to render the next frame. Add your rendering code here.

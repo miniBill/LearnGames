@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
+using Pong.Extensions;
 
-namespace Pong.Sprites
+namespace Pong.Objects.Sprites
 {
 	abstract class MovingSprite
 	{

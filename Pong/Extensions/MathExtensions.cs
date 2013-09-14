@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Pong
+namespace Pong.Extensions
 {
 	static class MathExtensions
 	{

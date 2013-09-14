@@ -2,11 +2,12 @@
 using System.Drawing;
 using Pong.GUI;
 using System.Diagnostics;
-using Pong.Game;
 using OpenTK.Input;
-using Pong.Sprites;
+using Pong.Objects;
+using Pong.Objects.Sprites;
+using Pong.Extensions;
 
-namespace Pong
+namespace Pong.Logic
 {
 	public class GameController
 	{
