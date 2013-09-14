@@ -5,21 +5,20 @@ using System;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
-using OpenTK.Input;
 using Pong.Logic;
 
 namespace Pong.GUI
 {
 	class Game : GameWindow, IGame
 	{
-		readonly GameController controller;
-
 		/// <summary>Creates a 800x600 window with the specified title.</summary>
 		public Game()
 			: base(800, 600, GraphicsMode.Default, "PonGL")
 		{
 			VSync = VSyncMode.On;
-			controller = new GameController (this);
+			new GameController (this);
+
+			Letter.LoadFont ();
 		}
 
 		/// <summary>Load resources here.</summary>
@@ -57,9 +56,6 @@ namespace Pong.GUI
 		{
 			base.OnUpdateFrame(e);
 
-			if (Keyboard[Key.Escape])
-				Exit();
-
 			if (Update != null)
 				Update (this, e);
 		}
@@ -77,17 +73,9 @@ namespace Pong.GUI
 
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-			Matrix4 modelview = Matrix4.LookAt(Vector3.Zero, Vector3.UnitZ, Vector3.UnitY);
+			Matrix4 modelview = Matrix4.LookAt(Vector3.Zero, -Vector3.UnitZ, Vector3.UnitY);
 			GL.MatrixMode(MatrixMode.Modelview);
 			GL.LoadMatrix(ref modelview);
-
-			GL.Begin(BeginMode.Triangles);
-
-			GL.Color4(1.0f, 1.0f, 0.0f, 0.0f); GL.Vertex3(-1.0f, -1.0f, 4.0f);
-			GL.Color4(1.0f, 0.0f, 0.0f, 0.4f); GL.Vertex3(1.0f, -1.0f, 4.0f);
-			GL.Color4(0.2f, 0.9f, 1.0f, 1.0f); GL.Vertex3(0.0f, 1.0f, 4.0f);
-
-			GL.End();
 
 			if (Render != null)
 				Render (this, e);
@@ -106,7 +94,7 @@ namespace Pong.GUI
 			// RenderFrame events (as fast as the computer can handle).
 			using (var game = new Game())
 			{
-				game.Run (60.0, 60.0);
+				game.Run ();
 			}
 		}
 	}

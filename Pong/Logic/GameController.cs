@@ -1,29 +1,27 @@
-﻿using System;
-using System.Drawing;
-using Pong.GUI;
-using System.Diagnostics;
+﻿using Pong.GUI;
 using OpenTK.Input;
 using Pong.Objects;
 using Pong.Objects.Sprites;
-using Pong.Extensions;
 using OpenTK;
-using OpenTK.Graphics.OpenGL;
 
 namespace Pong.Logic {
-	public class GameController
+	class GameController
 	{
 		readonly World world = new World ();
+		readonly IGame game;
 
 		public GameController (IGame game)
 		{
+			this.game = game;
 			game.Update += Game_Update;
 			game.Render += Game_Render;
+			game.Keyboard.KeyDown += KeyDown;
+			game.Keyboard.KeyUp += KeyUp;
 		}
 
 		bool started;
 		bool paused;
-		readonly FPSCounter counter = new FPSCounter();
-
+		readonly FPSCounter counter = new FPSCounter ();
 		ulong playerPoints;
 		ulong aiPoints;
 
@@ -35,17 +33,67 @@ namespace Pong.Logic {
 				return;
 			if (!paused)
 				world.Update (delta);
-			if (world.Ball.Stopped)
-				world.Ball.Kick ();
-			if (world.Ball.Left < world.CollisionTolerance) {
+			Ball ball = world.Ball;
+			if (ball.Stopped)
+				ball.Kick ();
+			if (ball.Left < world.CollisionTolerance - 1) {
 				aiPoints++;
-				world.Ball.X = world.Ball.Y = 0.5;
-				world.Ball.Kick ();
-			} else if (world.Ball.Right > 1 - world.CollisionTolerance) {
+				ball.Kick ();
+			} else if (ball.Right > 1 - world.CollisionTolerance) {
 				playerPoints++;
-				world.Ball.X = world.Ball.Y = 0.5;
-				world.Ball.Kick ();
+				ball.Kick ();
 			}
+		}
+
+		static void RenderFPS (int fps)
+		{
+			RenderString (fps.ToString (), 0.0f, 0.9f, HAlign.Center, VAlign.Top);
+		}
+
+		void RenderScore ()
+		{
+			RenderString (playerPoints.ToString (), -0.9f, 0.9f, HAlign.Left, VAlign.Top);
+			RenderString (aiPoints.ToString (), 0.9f, 0.9f, HAlign.Right, VAlign.Top);
+		}
+
+		static void RenderPaused ()
+		{
+			RenderString ("P A U S E D", 0.0f, 0.0f, HAlign.Center, VAlign.Center);
+		}
+
+		static void RenderStart ()
+		{
+			RenderString ("Press ENTER to begin!", 0.0f, 0.0f, HAlign.Center, VAlign.Center);
+		}
+
+		static void RenderString (string value, float x, float y, HAlign halign, VAlign valign)
+		{
+			switch (halign) {
+				case HAlign.Center:
+					x -= value.Length / 2.0f * Letter.Width;
+					break;
+				case HAlign.Right:
+					x -= value.Length * Letter.Width;
+					break;
+			}
+			switch (valign) {
+				case VAlign.Center:
+					y += Letter.Height / 2.0f;
+					break;
+				case VAlign.Bottom:
+					y += Letter.Height;
+					break;
+			}
+			for (int i = 0; i < value.Length; i++) {
+				char c = value [i];
+				RenderLetter (c, x, y);
+				x += Letter.Width + Letter.Spacing;
+			}
+		}
+
+		static void RenderLetter (char c, float x, float y)
+		{
+			Letter.GetLetter (c).Render (x, y);
 		}
 
 		void Game_Render (object sender, FrameEventArgs e)
@@ -53,59 +101,39 @@ namespace Pong.Logic {
 			double delta = e.Time;
 
 			if (!started) {
-				;//graphics.DrawString ("Press ENTER to begin!", introFont, Brushes.White, rectangle.GetCenter (), introFormat);
+				RenderStart ();
 			} else {
 				if (!paused)
 					world.Update (delta);
-				if (world.Ball.Stopped)
-					world.Ball.Kick ();
 				int fps = counter.Update (delta);
-				graphics.FillRectangle (Brushes.White, size.Width * 99.0f / 200.0f, 0, size.Width / 100.0f, size.Height);
-				graphics.DrawString (String.Format ("{0} FPS", fps), pointsFont, Brushes.Blue,
-					size.Width / 2.0f, 0, centerFormat);
-				graphics.DrawString (String.Format ("{0}", playerPoints), pointsFont, Brushes.White,
-					0, 0);
-				graphics.DrawString (String.Format ("{0}", aiPoints), pointsFont, Brushes.White,
-					size.Width, 0, rightFormat);
-				world.DrawTo (graphics, size);
-				if (paused) {
-					graphics.DrawString ("P A U S E D", introFont, Brushes.Gray, rectangle.GetCenter (),
-						introFormat);
-				}
-
-				if (world.Ball.Left < world.CollisionTolerance) {
-					aiPoints++;
-					world.Ball.X = world.Ball.Y = 0.5;
-					world.Ball.Kick ();
-				} else if (world.Ball.Right > 1 - world.CollisionTolerance) {
-					playerPoints++;
-					world.Ball.X = world.Ball.Y = 0.5;
-					world.Ball.Kick ();
-				}
+				RenderFPS (fps);
+				RenderScore ();
+				world.Draw ();
+				if (paused)
+					RenderPaused ();
 			}
 		}
 
-		public void KeyDown (Key keyCode)
+		public void KeyDown (object sender, KeyboardKeyEventArgs e)
 		{
-			switch (keyCode) {
+			switch (e.Key) {
 				case Key.Enter:
 					started = true;
 					paused = false;
 					break;
 				case Key.Up:
 				case Key.W:
-					world.Player.SpeedY = -Player.TOP_SPEED * 1.5;
+					world.Player.SpeedY = Player.TOP_SPEED * 1.5;
 					paused = false;
 					break;
 				case Key.Down:
 				case Key.S:
-					world.Player.SpeedY = Player.TOP_SPEED * 1.5;
+					world.Player.SpeedY = -Player.TOP_SPEED * 1.5;
 					paused = false;
 					break;
 				case Key.Q:
 				case Key.Escape:
-					timer.Stop ();
-					Environment.Exit (0);
+					game.Exit ();
 					break;
 				case Key.Space:
 				case Key.P:
@@ -114,9 +142,9 @@ namespace Pong.Logic {
 			}
 		}
 
-		public void KeyUp (Key keyCode)
+		public void KeyUp (object sender, KeyboardKeyEventArgs e)
 		{
-			switch (keyCode) {
+			switch (e.Key) {
 				case Key.Up:
 				case Key.W:
 				case Key.Down:

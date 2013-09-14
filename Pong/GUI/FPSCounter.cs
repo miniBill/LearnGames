@@ -9,7 +9,7 @@
 		public int Update(double time)
 		{
 			elapsed += time;
-			if (time >= 1)
+			if (elapsed >= 1)
 			{
 				savedFrames = frames;
 				frames = 1;
