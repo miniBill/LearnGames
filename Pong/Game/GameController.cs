@@ -3,19 +3,20 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using Pong.Game.Sprites;
+using Pong.GUI;
 
 namespace Pong.Game
 {
-	internal class GameController
+	class GameController
 	{
 		readonly World world = new World();
-		private readonly DrawingSurface drawingSurface;
-		private Stopwatch timer;
+		readonly DrawingSurface drawingSurface;
+		Stopwatch timer;
 
 		public GameController(DrawingSurface drawingSurface)
 		{
 			this.drawingSurface = drawingSurface;
-			drawingSurface.Update += drawingSurface_Update;
+			drawingSurface.Update += DrawingSurface_Update;
 			introFont = new Font(FontFamily.GenericMonospace, 30.0f, FontStyle.Bold);
 			pointsFont = new Font(FontFamily.GenericMonospace, 20.0f, FontStyle.Bold);
 		}
@@ -26,34 +27,34 @@ namespace Pong.Game
 			timer.Start();
 		}
 
-		private bool started;
-		private bool paused;
-		private long saved;
-		FPSCounter counter = new FPSCounter();
+		bool started;
+		bool paused;
+		long saved;
+		readonly FPSCounter counter;
 
-		private readonly StringFormat introFormat = new StringFormat
+		readonly StringFormat introFormat = new StringFormat
 		{
 			Alignment = StringAlignment.Center,
 			LineAlignment = StringAlignment.Center
 		};
 
-		private readonly StringFormat centerFormat = new StringFormat
+		readonly StringFormat centerFormat = new StringFormat
 		{
 			Alignment = StringAlignment.Center,
 			LineAlignment = StringAlignment.Near
 		};
 
-		private readonly StringFormat rightFormat = new StringFormat
+		readonly StringFormat rightFormat = new StringFormat
 		{
 			Alignment = StringAlignment.Far,
 			LineAlignment = StringAlignment.Near
 		};
 
-		private ulong playerPoints;
-		private ulong aiPoints;
-		private Font introFont;
-		private Font pointsFont;
-		private void drawingSurface_Update(object sender, PaintEventArgs e)
+		ulong playerPoints;
+		ulong aiPoints;
+		readonly Font introFont;
+		readonly Font pointsFont;
+		void DrawingSurface_Update(object sender, PaintEventArgs e)
 		{
 			if (timer == null)
 				return;
@@ -117,12 +118,12 @@ namespace Pong.Game
 					break;
 				case Keys.Up:
 				case Keys.W:
-					world.Player.SpeedY = -Player.TopSpeed * 1.5;
+					world.Player.SpeedY = -Player.TOP_SPEED * 1.5;
 					paused = false;
 					break;
 				case Keys.Down:
 				case Keys.S:
-					world.Player.SpeedY = Player.TopSpeed * 1.5;
+					world.Player.SpeedY = Player.TOP_SPEED * 1.5;
 					paused = false;
 					break;
 				case Keys.Q:

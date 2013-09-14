@@ -4,7 +4,7 @@ namespace Pong.Game.Sprites
 {
 	class Player : MovingSprite
 	{
-		private readonly World world;
+		readonly World world;
 		public bool AI { get; private set; }
 
 		public Player(bool ai, World world)

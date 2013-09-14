@@ -3,18 +3,44 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pong", "Pong\Pong.csproj", "{EEE9DA0C-E55C-4676-A921-F1EE921B967B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PonGL", "PonGL\PonGL.csproj", "{32D1B734-2632-4475-80D8-0F3720A68674}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTK", "..\opentk\Source\OpenTK\OpenTK.csproj", "{A37A7E14-0000-0000-0000-000000000000}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
+		Documentation|Any CPU = Documentation|Any CPU
+		Nsis|Any CPU = Nsis|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{32D1B734-2632-4475-80D8-0F3720A68674}.Debug|x86.ActiveCfg = Debug|x86
+		{32D1B734-2632-4475-80D8-0F3720A68674}.Debug|x86.Build.0 = Debug|x86
+		{32D1B734-2632-4475-80D8-0F3720A68674}.Documentation|Any CPU.ActiveCfg = Debug|x86
+		{32D1B734-2632-4475-80D8-0F3720A68674}.Documentation|Any CPU.Build.0 = Debug|x86
+		{32D1B734-2632-4475-80D8-0F3720A68674}.Nsis|Any CPU.ActiveCfg = Debug|x86
+		{32D1B734-2632-4475-80D8-0F3720A68674}.Nsis|Any CPU.Build.0 = Debug|x86
+		{32D1B734-2632-4475-80D8-0F3720A68674}.Release|x86.ActiveCfg = Release|x86
+		{32D1B734-2632-4475-80D8-0F3720A68674}.Release|x86.Build.0 = Release|x86
+		{A37A7E14-0000-0000-0000-000000000000}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A37A7E14-0000-0000-0000-000000000000}.Debug|x86.Build.0 = Debug|Any CPU
+		{A37A7E14-0000-0000-0000-000000000000}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
+		{A37A7E14-0000-0000-0000-000000000000}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
+		{A37A7E14-0000-0000-0000-000000000000}.Nsis|Any CPU.ActiveCfg = Nsis|Any CPU
+		{A37A7E14-0000-0000-0000-000000000000}.Nsis|Any CPU.Build.0 = Nsis|Any CPU
+		{A37A7E14-0000-0000-0000-000000000000}.Release|x86.ActiveCfg = Release|Any CPU
+		{A37A7E14-0000-0000-0000-000000000000}.Release|x86.Build.0 = Release|Any CPU
 		{EEE9DA0C-E55C-4676-A921-F1EE921B967B}.Debug|x86.ActiveCfg = Debug|x86
 		{EEE9DA0C-E55C-4676-A921-F1EE921B967B}.Debug|x86.Build.0 = Debug|x86
+		{EEE9DA0C-E55C-4676-A921-F1EE921B967B}.Documentation|Any CPU.ActiveCfg = Debug|x86
+		{EEE9DA0C-E55C-4676-A921-F1EE921B967B}.Documentation|Any CPU.Build.0 = Debug|x86
+		{EEE9DA0C-E55C-4676-A921-F1EE921B967B}.Nsis|Any CPU.ActiveCfg = Debug|x86
+		{EEE9DA0C-E55C-4676-A921-F1EE921B967B}.Nsis|Any CPU.Build.0 = Debug|x86
 		{EEE9DA0C-E55C-4676-A921-F1EE921B967B}.Release|x86.ActiveCfg = Release|x86
 		{EEE9DA0C-E55C-4676-A921-F1EE921B967B}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Pong\Pong.csproj
+		StartupItem = PonGL\PonGL.csproj
 	EndGlobalSection
 EndGlobal

@@ -5,8 +5,8 @@ namespace Pong.Game.Sprites
 {
 	class Ball : MovingSprite
 	{
-		private readonly World world;
-		private double speed = 2.5;
+		readonly World world;
+		double speed = 2.5;
 
 		public Ball(World world)
 			: base(1 / 100.0, 3.0 / 2.0 / 100.0)
@@ -86,14 +86,14 @@ namespace Pong.Game.Sprites
 			RescaleSpeed();
 		}
 
-		private void RescaleSpeed()
+		void RescaleSpeed()
 		{
 			double length = Math.Sqrt(SpeedX * SpeedX + SpeedY * SpeedY);
 			SpeedX *= speed / length * 2 / 3;
 			SpeedY *= speed / length;
 		}
 
-		private double RandomSpeedY()
+		double RandomSpeedY()
 		{
 			return rnd.NextDouble().Project(0, 1, -1, 1);
 		}

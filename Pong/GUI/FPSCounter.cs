@@ -1,10 +1,10 @@
-﻿namespace Pong
+﻿namespace Pong.GUI
 {
 	struct FPSCounter
 	{
-		private int frames;
-		private int savedFrames;
-		private long savedSecond;
+		int frames;
+		int savedFrames;
+		long savedSecond;
 
 		public int Update(long ticks)
 		{
