@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace Pong.Game.Sprites
+namespace Pong.Sprites
 {
 	class Ball : MovingSprite
 	{

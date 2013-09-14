@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace Pong.Game.Sprites
+namespace Pong.Sprites
 {
 	class Player : MovingSprite
 	{
@@ -15,7 +15,7 @@ namespace Pong.Game.Sprites
 			AI = ai;
 		}
 
-		public const double TopSpeed = 3;
+		public const double TOP_SPEED = 3;
 
 		public override void Update(double delta)
 		{
@@ -23,8 +23,8 @@ namespace Pong.Game.Sprites
 			if (!AI) return;
 			if (world.Ball.X > .25)
 			{
-				double projected = world.Ball.Y.Project(Top + Width / 3, Bottom - Width / 3, -TopSpeed, TopSpeed);
-				SpeedY = projected.Clamp(-TopSpeed, TopSpeed);
+				double projected = world.Ball.Y.Project(Top + Width / 3, Bottom - Width / 3, -TOP_SPEED, TOP_SPEED);
+				SpeedY = projected.Clamp(-TOP_SPEED, TOP_SPEED);
 			}
 			else
 			{
