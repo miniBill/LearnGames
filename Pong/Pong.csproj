@@ -38,11 +38,10 @@
     <Compile Include="Objects\Sprites\Player.cs" />
     <Compile Include="GUI\FPSCounter.cs" />
     <Compile Include="Logic\GameController.cs" />
-    <Compile Include="GUI\IDrawingSurface.cs" />
     <Compile Include="GUI\Program.cs" />
-    <Compile Include="GUI\UpdateEventArgs.cs" />
     <Compile Include="Extensions\RectangleExtensions.cs" />
     <Compile Include="Extensions\MathExtensions.cs" />
+    <Compile Include="GUI\IGame.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Drawing" />

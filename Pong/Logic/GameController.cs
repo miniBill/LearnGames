@@ -6,113 +6,88 @@ using OpenTK.Input;
 using Pong.Objects;
 using Pong.Objects.Sprites;
 using Pong.Extensions;
+using OpenTK;
+using OpenTK.Graphics.OpenGL;
 
-namespace Pong.Logic
-{
+namespace Pong.Logic {
 	public class GameController
 	{
-		readonly World world = new World();
-		Stopwatch timer;
+		readonly World world = new World ();
 
-		public GameController(IDrawingSurface drawingSurface)
+		public GameController (IGame game)
 		{
-			drawingSurface.Update += DrawingSurface_Update;
-			introFont = new Font(FontFamily.GenericMonospace, 30.0f, FontStyle.Bold);
-			pointsFont = new Font(FontFamily.GenericMonospace, 20.0f, FontStyle.Bold);
-		}
-
-		public void Start()
-		{
-			timer = new Stopwatch();
-			timer.Start();
+			game.Update += Game_Update;
+			game.Render += Game_Render;
 		}
 
 		bool started;
 		bool paused;
-		long saved;
-		readonly FPSCounter counter;
-
-		readonly StringFormat introFormat = new StringFormat
-		{
-			Alignment = StringAlignment.Center,
-			LineAlignment = StringAlignment.Center
-		};
-
-		readonly StringFormat centerFormat = new StringFormat
-		{
-			Alignment = StringAlignment.Center,
-			LineAlignment = StringAlignment.Near
-		};
-
-		readonly StringFormat rightFormat = new StringFormat
-		{
-			Alignment = StringAlignment.Far,
-			LineAlignment = StringAlignment.Near
-		};
+		readonly FPSCounter counter = new FPSCounter();
 
 		ulong playerPoints;
 		ulong aiPoints;
-		readonly Font introFont;
-		readonly Font pointsFont;
-		void DrawingSurface_Update(object sender, UpdateEventArgs e)
-		{
-			if (timer == null)
-				return;
-			long ticks = timer.ElapsedTicks;
-			long idelta = ticks - saved;
-			double delta = idelta / 10000000.0;
-			saved = ticks;
-			if (idelta == 0)
-				return;
 
-			var graphics = e.Graphics;
-			var rectangle = e.Rectangle;
+		void Game_Update (object sender, FrameEventArgs e)
+		{
+			double delta = e.Time;
+
 			if (!started)
-			{
-				graphics.DrawString("Press ENTER to begin!", introFont, Brushes.White, rectangle.GetCenter(),
-					introFormat);
+				return;
+			if (!paused)
+				world.Update (delta);
+			if (world.Ball.Stopped)
+				world.Ball.Kick ();
+			if (world.Ball.Left < world.CollisionTolerance) {
+				aiPoints++;
+				world.Ball.X = world.Ball.Y = 0.5;
+				world.Ball.Kick ();
+			} else if (world.Ball.Right > 1 - world.CollisionTolerance) {
+				playerPoints++;
+				world.Ball.X = world.Ball.Y = 0.5;
+				world.Ball.Kick ();
 			}
-			else
-			{
+		}
+
+		void Game_Render (object sender, FrameEventArgs e)
+		{
+			double delta = e.Time;
+
+			if (!started) {
+				;//graphics.DrawString ("Press ENTER to begin!", introFont, Brushes.White, rectangle.GetCenter (), introFormat);
+			} else {
 				if (!paused)
-					world.Update(delta);
+					world.Update (delta);
 				if (world.Ball.Stopped)
-					world.Ball.Kick();
-				Size size = rectangle.Size;
-				int fps = counter.Update(ticks);
-				graphics.FillRectangle(Brushes.White, size.Width * 99.0f / 200.0f, 0, size.Width / 100.0f, size.Height);
-				graphics.DrawString(String.Format("{0} FPS", fps), pointsFont, Brushes.Blue,
+					world.Ball.Kick ();
+				int fps = counter.Update (delta);
+				graphics.FillRectangle (Brushes.White, size.Width * 99.0f / 200.0f, 0, size.Width / 100.0f, size.Height);
+				graphics.DrawString (String.Format ("{0} FPS", fps), pointsFont, Brushes.Blue,
 					size.Width / 2.0f, 0, centerFormat);
-				graphics.DrawString(String.Format("{0}", playerPoints), pointsFont, Brushes.White,
+				graphics.DrawString (String.Format ("{0}", playerPoints), pointsFont, Brushes.White,
 					0, 0);
-				graphics.DrawString(String.Format("{0}", aiPoints), pointsFont, Brushes.White,
+				graphics.DrawString (String.Format ("{0}", aiPoints), pointsFont, Brushes.White,
 					size.Width, 0, rightFormat);
-				world.DrawTo(graphics, size);
-				if (paused)
-				{
-					graphics.DrawString("P A U S E D", introFont, Brushes.Gray, rectangle.GetCenter(),
-					introFormat);
+				world.DrawTo (graphics, size);
+				if (paused) {
+					graphics.DrawString ("P A U S E D", introFont, Brushes.Gray, rectangle.GetCenter (),
+						introFormat);
 				}
 
-				if (world.Ball.Left < world.CollisionTolerance)
-				{
+				if (world.Ball.Left < world.CollisionTolerance) {
 					aiPoints++;
 					world.Ball.X = world.Ball.Y = 0.5;
-					world.Ball.Kick();
-				}
-				else if (world.Ball.Right > 1 - world.CollisionTolerance)
-				{
+					world.Ball.Kick ();
+				} else if (world.Ball.Right > 1 - world.CollisionTolerance) {
 					playerPoints++;
 					world.Ball.X = world.Ball.Y = 0.5;
-					world.Ball.Kick();
+					world.Ball.Kick ();
 				}
 			}
 		}
 
-		public void KeyDown(Key keyCode)
+		public void KeyDown (Key keyCode)
 		{
-			switch (keyCode)
-			{
+			switch (keyCode) {
 				case Key.Enter:
 					started = true;
 					paused = false;
@@ -139,10 +114,9 @@ namespace Pong.Logic
 			}
 		}
 
-		public void KeyUp(Key keyCode)
+		public void KeyUp (Key keyCode)
 		{
-			switch (keyCode)
-			{
+			switch (keyCode) {
 				case Key.Up:
 				case Key.W:
 				case Key.Down:

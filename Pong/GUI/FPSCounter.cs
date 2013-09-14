@@ -1,18 +1,19 @@
 ﻿namespace Pong.GUI
 {
-	struct FPSCounter
+	class FPSCounter
 	{
 		int frames;
 		int savedFrames;
-		long savedSecond;
+		double elapsed;
 
-		public int Update(long ticks)
+		public int Update(double time)
 		{
-			if (ticks - savedSecond >= 1000*10000)
+			elapsed += time;
+			if (time >= 1)
 			{
 				savedFrames = frames;
 				frames = 1;
-				savedSecond = ticks;
+				elapsed = 0;
 			}
 			frames++;
 			return savedFrames;

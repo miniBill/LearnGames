@@ -10,13 +10,16 @@ using Pong.Logic;
 
 namespace Pong.GUI
 {
-	class Game : GameWindow, IDrawingSurface
+	class Game : GameWindow, IGame
 	{
+		readonly GameController controller;
+
 		/// <summary>Creates a 800x600 window with the specified title.</summary>
 		public Game()
 			: base(800, 600, GraphicsMode.Default, "PonGL")
 		{
 			VSync = VSyncMode.On;
+			controller = new GameController (this);
 		}
 
 		/// <summary>Load resources here.</summary>
@@ -27,9 +30,6 @@ namespace Pong.GUI
 
 			GL.ClearColor(0, 0, 0, 0.0f);
 			GL.Enable(EnableCap.DepthTest);
-
-			var controller = new GameController (this);
-			controller.Start ();
 		}
 
 		/// <summary>
@@ -59,9 +59,13 @@ namespace Pong.GUI
 
 			if (Keyboard[Key.Escape])
 				Exit();
+
+			if (Update != null)
+				Update (this, e);
 		}
 
-		public event EventHandler<UpdateEventArgs> Update;
+		public event EventHandler<FrameEventArgs> Update;
+		public event EventHandler<FrameEventArgs> Render;
 
 		/// <summary>
 		/// Called when it is time to render the next frame. Add your rendering code here.
@@ -84,6 +88,9 @@ namespace Pong.GUI
 			GL.Color4(0.2f, 0.9f, 1.0f, 1.0f); GL.Vertex3(0.0f, 1.0f, 4.0f);
 
 			GL.End();
+
+			if (Render != null)
+				Render (this, e);
 
 			SwapBuffers();
 		}
