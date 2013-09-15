@@ -6,7 +6,7 @@ using System.Drawing;
 namespace Labyrinth.Entities {
 	class Player : BoundedEntity
 	{
-		public Player (Vector3 position = default(Vector3)) : base (position, new Vector3 (1, 1, 1))
+		public Player (Vector3 position = default(Vector3)) : base (position, new Vector3 (0.25f, 0.5f, 0.25f))
 		{
 		}
 
@@ -30,7 +30,7 @@ namespace Labyrinth.Entities {
 			Speed.Y = 0;
 			var length = Speed.Length;
 			if (Math.Abs (length) > 0.0001) {
-				float scale = 20f / length;
+				float scale = 2f / length;
 				Speed *= scale;
 			}
 		}

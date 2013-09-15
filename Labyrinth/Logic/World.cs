@@ -10,8 +10,8 @@ namespace Labyrinth.Logic {
 
 		public World ()
 		{
-			entities.Add (new Walls ());
-			entities.Add (new Player ());
+			entities.Add (new Walls (new Vector3 (0.0f, 1.0f, 0.0f)));
+			entities.Add (new Player (new Vector3 (0.0f, 0.25f, 0.0f)));
 			entities.Add (new Axes ());
 		}
 

@@ -59,7 +59,6 @@ namespace Labyrinth.GUI {
 		}
 
 		readonly FPSCounter counter = new FPSCounter ();
-		double time = 0;
 
 		/// <summary>
 		/// Called when it is time to render the next frame. Add your rendering code here.
@@ -76,7 +75,7 @@ namespace Labyrinth.GUI {
 			GL.LoadIdentity ();
 			GL.LoadMatrix (ref projection);
 
-			var modelview = GetModelView (e);
+			var modelview = GetModelView ();
 			GL.MatrixMode (MatrixMode.Modelview);
 			GL.LoadMatrix (ref modelview);
 
@@ -101,7 +100,7 @@ namespace Labyrinth.GUI {
 			SwapBuffers ();
 		}
 
-		Matrix4 GetModelView (FrameEventArgs e)
+		Matrix4 GetModelView ()
 		{
 			Vector3 pos;
 			Vector3 up;
@@ -109,11 +108,8 @@ namespace Labyrinth.GUI {
 				pos = new Vector3 (0, 0, 50);
 				up = Vector3.UnitY;
 			} else {
-				pos = new Vector3 (0, 50, 50);
-				time += e.Time / 4;
-				Matrix4 rot = Matrix4.CreateRotationY ((float)time);
-				up = Vector3.TransformPosition (-Vector3.UnitZ, rot);
-				pos = Vector3.TransformPosition (pos, rot);
+				pos = new Vector3 (0, 30, 0);
+				up = -Vector3.UnitZ;
 			}
 			Matrix4 modelview = Matrix4.LookAt (pos, Vector3.Zero, up);
 			return modelview;
